@@ -27,7 +27,7 @@ const TaskManager: React.FC = () => {
     if (input.trim() === '') return
     setLoading(true)
     try {
-      const res = await axios.post('/api/task', { title: input })
+      const res = await axios.post('/api/task', { title: input, userId: 1 })
       setTasks([...tasks, res.data])
       setInput('')
     } catch (err) {

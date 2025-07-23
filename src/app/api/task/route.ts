@@ -3,11 +3,18 @@ import { NextRequest, NextResponse } from 'next/server'
 
 // Добавить задачу
 export async function POST(req: NextRequest) {
-  const { title, description } = await req.json()
+  const { title, description, userId } = await req.json()
   if (!title)
     return NextResponse.json({ error: 'Title is required' }, { status: 400 })
+  if (typeof userId !== 'number') {
+    return NextResponse.json({ error: 'userId must be a number' }, { status: 400 })
+  }
   const task = await prisma.task.create({
-    data: { title, description },
+    data: {
+      title,
+      description,
+      userId
+    }
   })
   return NextResponse.json(task)
 }
