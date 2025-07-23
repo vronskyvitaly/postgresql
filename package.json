@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "docker:start": "npx prisma migrate deploy && npx prisma generate && npm run build && npm run start",
-    "postinstall": "npx prisma db push"
+    "postinstall": "npx prisma db push --force-reset"
   },
   "dependencies": {
     "@prisma/client": "^6.12.0",
