@@ -1,15 +1,27 @@
 'use client'
+
 import { authenticate } from '@/actions/auth'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useActionState, useEffect } from 'react'
+import { Suspense } from 'react'
 
 const initialState = { success: undefined, errors: { password: [] } }
 
+// Внешняя компонента, обертка с Suspense
 export default function SigninForm() {
-  const router = useRouter()
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <InnerSigninForm />
+    </Suspense>
+  )
+}
+
+// Внутренняя компонента, где вызывается useSearchParams()
+function InnerSigninForm() {
   const searchParams = useSearchParams()
   const [state, action, isPending] = useActionState(authenticate, initialState)
   const message = searchParams.get('message')
+  const router = useRouter()
 
   useEffect(() => {
     console.log('state:', state)
@@ -20,7 +32,11 @@ export default function SigninForm() {
 
   return (
     <div className='min-h-screen bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-800 flex items-center justify-center p-4'>
-      {/* Анимированные фоновые элементы */}
+      {/* Весь JSX оставьте без изменений */}
+
+      {/* Начинается ваш JSX, который вы прислали, начиная с this комментария */}
+
+      {/* Анимационные фоновые элементы */}
       <div className='absolute inset-0 overflow-hidden'>
         <div className='absolute -top-40 -right-40 w-80 h-80 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob'></div>
         <div className='absolute -bottom-40 -left-40 w-80 h-80 bg-yellow-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000'></div>
