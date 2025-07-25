@@ -50,6 +50,12 @@ export async function signinOutForm(prevState: SigninFormState | undefined) {
   try {
     await signOut({ redirectTo: '/' })
   } catch (error) {
+    // Check if it's a Next.js redirect (expected behavior)
+    if (error instanceof Error && error.message === 'NEXT_REDIRECT') {
+      // This is expected - don't log as error
+      throw error
+    }
+    
     console.log('authenticate error: ', error)
     // Handling authentication errors
     if (error instanceof AuthError) {
