@@ -15,10 +15,10 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: 'Task Manager - Управляй задачами будущего',
-  description: 'Революционный подход к управлению задачами с искусственным интеллектом, современным дизайном и безграничными возможностями. Повысьте свою продуктивность уже сегодня!',
+  description:
+    'Революционный подход к управлению задачами с искусственным интеллектом, современным дизайном и безграничными возможностями. Повысьте свою продуктивность уже сегодня!',
   keywords: 'task manager, управление задачами, продуктивность, планирование, организация, AI, искусственный интеллект',
   authors: [{ name: 'Task Manager Team' }],
-  viewport: 'width=device-width, initial-scale=1',
   robots: 'index, follow',
   openGraph: {
     title: 'Task Manager - Управляй задачами будущего',
@@ -27,6 +27,11 @@ export const metadata: Metadata = {
     locale: 'ru_RU'
   }
 }
+
+export const generateViewport = () => ({
+  width: 'device-width',
+  initialScale: 1
+})
 
 export default function RootLayout({
   children
