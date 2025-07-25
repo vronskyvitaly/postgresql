@@ -1,4 +1,4 @@
-# --- Этап 1: Установка зависимостей и генерация Prisma Client ---
+# --- Этап 1: Установка зависимостей ---
 FROM node:20-alpine AS installer
 
 WORKDIR /app

@@ -27,7 +27,6 @@ export const UserCreateForm: React.FC = () => {
       setPassword('')
     } catch (err) {
       console.error(err)
-      alert('Ошибка при создании пользователя')
     } finally {
       setLoading(false)
     }
@@ -37,13 +36,7 @@ export const UserCreateForm: React.FC = () => {
     <div style={{ maxWidth: 400, margin: '2rem auto', padding: 24, border: '1px solid #eee', borderRadius: 8 }}>
       <h2>Создать пользователя</h2>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-        <input
-          type='text'
-          placeholder='Имя'
-          value={name}
-          onChange={e => setName(e.target.value)}
-          disabled={loading}
-        />
+        <input type='text' placeholder='Имя' value={name} onChange={e => setName(e.target.value)} disabled={loading} />
         <input
           type='email'
           placeholder='Email'

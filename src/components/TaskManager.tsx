@@ -1,6 +1,8 @@
 'use client'
+
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import { useSession } from 'next-auth/react'
 
 interface Task {
   id: number
@@ -13,6 +15,7 @@ const TaskManager: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([])
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
+  const { data: session } = useSession()
 
   // Загрузка задач из базы
   useEffect(() => {
@@ -27,7 +30,7 @@ const TaskManager: React.FC = () => {
     if (input.trim() === '') return
     setLoading(true)
     try {
-      const res = await axios.post('/api/task', { title: input, userId: 1 })
+      const res = await axios.post('/api/task', { title: input, userId: Number(session?.user?.id) })
       setTasks([...tasks, res.data])
       setInput('')
     } catch (err) {
@@ -51,51 +54,40 @@ const TaskManager: React.FC = () => {
   }
 
   return (
-    <div
-      style={{
-        maxWidth: 400,
-        margin: '2rem auto',
-        padding: 24,
-        border: '1px solid #eee',
-        borderRadius: 8
-      }}
-    >
-      <h2>Добавить задачу</h2>
-      <form onSubmit={handleSubmit} style={{ display: 'flex', gap: 8 }}>
-        <input
-          type='text'
-          value={input}
-          onChange={e => setInput(e.target.value)}
-          placeholder='Введите задачу...'
-          style={{ flex: 1, padding: 8 }}
-          disabled={loading}
-        />
-        <button type='submit' style={{ padding: '8px 16px' }} disabled={loading}>
-          {loading ? 'Добавление...' : 'Добавить'}
-        </button>
-      </form>
-      <ul style={{ marginTop: 24 }}>
-        {tasks.map(task => (
-          <li
-            key={task.id}
-            style={{
-              padding: '4px 0',
-              display: 'flex',
-              alignItems: 'center',
-              gap: 8
-            }}
+    <div className='flex-1 p-8 h-full'>
+      <div className='bg-white rounded-lg shadow-md p-6 text-black'>
+        <h2 className='text-xl font-semibold mb-4 text-black'>Добавить задачу</h2>
+        <form onSubmit={handleSubmit} className='flex mb-4'>
+          <input
+            type='text'
+            value={input}
+            onChange={e => setInput(e.target.value)}
+            placeholder='Введите задачу...'
+            className='flex-1 border border-gray-300 rounded-lg p-2 mr-2 focus:outline-none focus:ring-2 focus:ring-blue-500'
+            disabled={loading}
+          />
+          <button
+            type='submit'
+            className='bg-blue-600 text-white rounded-lg px-4 py-2 hover:bg-blue-700 transition duration-150'
+            disabled={loading}
           >
-            <input type='checkbox' checked={task.completed} onChange={() => toggleTask(task)} />
-            <span
-              style={{
-                textDecoration: task.completed ? 'line-through' : 'none'
-              }}
+            {loading ? 'Добавление...' : 'Добавить'}
+          </button>
+        </form>
+        <ul className='max-h-150 overflow-y-auto'>
+          {tasks.map(task => (
+            <li
+              key={task.id}
+              className='flex items-center justify-between p-2 border-b border-gray-200 hover:bg-gray-50 transition duration-150'
             >
-              {task.title}
-            </span>
-          </li>
-        ))}
-      </ul>
+              <div className='flex items-center'>
+                <input type='checkbox' checked={task.completed} onChange={() => toggleTask(task)} className='mr-2' />
+                <span className={task.completed ? 'line-through text-gray-500' : ''}>{task.title}</span>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   )
 }

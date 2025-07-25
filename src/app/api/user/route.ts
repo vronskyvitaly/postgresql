@@ -1,4 +1,3 @@
-// В файле src/app/api/user/route.ts
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prismaClient'
 
@@ -14,7 +13,7 @@ export async function POST(req: NextRequest) {
       data: {
         name,
         email,
-        password, // в реальной системе хешируйте пароль!
+        password,
       }
     })
 
@@ -24,6 +23,3 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Failed to create user' }, { status: 500 })
   }
 }
-//
-//
-//
